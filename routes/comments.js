@@ -44,19 +44,13 @@ router.post("/",isLoggedIn,(req,res)=>{
     
 });
 // route to edit comment
-router.get('/:comment_id/edit', (req,res)=>{
+router.get('/:comment_id/edit',checkCommentOwnership,(req,res)=>{
     
-      
       Comment.findById(req.params.comment_id,(err,foundComment)=>{
-          if(err){
-              res.redirect('back')
-          }else{
-              res.render('comments/edit',{campground_id:req.params.id,comment:foundComment});
-          }
-      })
+        res.render('comments/edit',{campground_id:req.params.id,comment:foundComment});
+      });
       
 });
-
 
 // route to update comment
 router.put('/:comment_id',(req,res)=>{
@@ -96,4 +90,31 @@ function isLoggedIn(req,res,next){
       res.redirect("/login")
 }
 
+
+// middleware for checking comment ownership
+
+
+function checkCommentOwnership(req,res,next){
+    
+    if(req.isAuthenticated()){
+      
+        Comment.findById(req.params.comment_id,(err,foundComment)=>{
+       if(err){
+          res.redirect('back')
+       }else{
+         
+         if(foundComment.author.id.equals(req.user._id) && req.user){
+          next()
+         }else{
+             res.redirect('back');
+         }
+       }
+   });
+   
+       
+   }else{
+         res.redirect('back');
+   }
+    
+}
 module.exports = router;
