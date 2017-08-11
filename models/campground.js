@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 var campgroundSchema = new mongoose.Schema({
     name:  String,
@@ -8,12 +8,12 @@ var campgroundSchema = new mongoose.Schema({
     author:{
           id:{
               type:mongoose.Schema.Types.ObjectId,
-              ref:"User"
+              ref:'User'
           },
           username: String
     },
     comments:[
-         {type:mongoose.Schema.Types.ObjectId, ref:"Comment"}
+         {type:mongoose.Schema.Types.ObjectId, ref:'Comment'}
         ]
 });
 

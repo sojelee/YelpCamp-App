@@ -2,26 +2,26 @@ var express     = require('express'),
     app         = express(),
     bodyParser  = require('body-parser'),
     mongoose    = require('mongoose'),
-    passport    =require("passport"),
-    LocalStrategy = require("passport-local"),
-    methodOverride = require("method-override"),
-    Campground  = require("./models/campground"),
-    Comment     = require("./models/comment"),
-    seedDB      = require("./seeds"),
-    User        = require("./models/user")
+    passport    =require('passport'),
+    LocalStrategy = require('passport-local'),
+    methodOverride = require('method-override'),
+    Campground  = require('./models/campground'),
+    Comment     = require('./models/comment'),
+    seedDB      = require('./seeds'),
+    User        = require('./models/user')
     
-var IndexRoutes      = require("./routes/index"),
-    CampgroundRoutes = require("./routes/campgrounds"),
-    CommentRoutes    = require("./routes/comments")
+var IndexRoutes      = require('./routes/index'),
+    CampgroundRoutes = require('./routes/campgrounds'),
+    CommentRoutes    = require('./routes/comments')
     //seedDB();
 mongoose.connect('mongodb://localhost/yelp_camp_12');
 
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method'));
-app.use(require("express-session")({
-    secret:"this is a secret phrase",
+app.use(require('express-session')({
+    secret:'this is a secret phrase',
     resave:false,
     saveUninitialized:false
 }))
@@ -37,8 +37,8 @@ app.use(function(req,res,next){
 });
 
 app.use(IndexRoutes);
-app.use("/campgrounds",CampgroundRoutes);
-app.use("/campgrounds/:id/comments",CommentRoutes);
+app.use('/campgrounds',CampgroundRoutes);
+app.use('/campgrounds/:id/comments',CommentRoutes);
 
 app.listen(process.env.PORT,process.env.IP,()=>{
     console.log('Yelp Camp Started !!!');
